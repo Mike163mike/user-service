@@ -1,15 +1,19 @@
 package com.mirasoft.mike.userservice.controller;
 
 import com.mirasoft.mike.userservice.dto.mapper.UserMapper;
+import com.mirasoft.mike.userservice.dto.request.UserAuthPostRequestDto;
 import com.mirasoft.mike.userservice.dto.response.UserResponseDto;
 import com.mirasoft.mike.userservice.service.UserService;
+import lombok.NonNull;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController
-//@RequestMapping
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService service;
@@ -26,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/admin")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String welcomeAdmin() {
         return "<h2> Hello admin, my friend! </h2>";
     }
@@ -37,46 +41,46 @@ public class UserController {
         return "<h2> Hello user! I can see you! </h2>";
     }
 
-    @GetMapping("/test")
-    public Set<UserResponseDto> test() {
-        return mapper.toSet(service.findAll());
-    }
+//    @GetMapping("/test")
+//    public Set<UserResponseDto> test() {
+//        return mapper.toSet(service.findAll());
+//    }
 
 //    @GetMapping("/user")
-//    // @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
 //    public ResponseEntity<Set<UserResponseDto>> getAll() {
 //        Set<UserResponseDto> result = mapper.toSet(service.findAll());
 //        return ResponseEntity.ok(result);
 //    }
 
-//    @PostMapping("/admin")
-//    //@PreAuthorize("hasRole('ADMIN')")
-//    @NonNull
-//    public ResponseEntity<UserResponseDto> create(@RequestBody UserPostRequestDto userPostRequestDto) {
-//        UserResponseDto newUser = mapper.map(service.save(mapper.map(userPostRequestDto)));
-//        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-//    }
+    @PostMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    @NonNull
+    public ResponseEntity<UserResponseDto> create(@RequestBody UserAuthPostRequestDto userPostRequestDto) {
+        UserResponseDto newUser = mapper.map(service.save(mapper.map(userPostRequestDto)));
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
 
-//    @PutMapping("/admin/{id}")
-//    //@PreAuthorize("hasRole('ADMIN')")
-//    @NonNull
-//    public ResponseEntity<UserResponseDto> update(@PathVariable String id, @RequestBody UserPostRequestDto userPostRequestDto) {
-//        UserResponseDto newUser = mapper.map(service.update(id, mapper.map(userPostRequestDto)));
-//        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-//    }
+    @PutMapping("/admin/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @NonNull
+    public ResponseEntity<UserResponseDto> update(@PathVariable Long id, @RequestBody UserAuthPostRequestDto userPostRequestDto) {
+        UserResponseDto newUser = mapper.map(service.update(id, mapper.map(userPostRequestDto)));
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
 
-//    @DeleteMapping("/admin/{id}")
-//    //@PreAuthorize("hasRole('ADMIN')")
-//    @NonNull
-//    public ResponseEntity<UserResponseDto> delete(@PathVariable("id") String id) {
-//        service.deleteById(id);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
-//
-//    @GetMapping("/user/{id}")
-//    //@PreAuthorize("hasRole('USER')")
-//    @NonNull
-//    public ResponseEntity<UserResponseDto> getById(@PathVariable("id") String id) {
-//        return ResponseEntity.ok(mapper.map(service.findById(id)));
-//    }
+    @DeleteMapping("/admin/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @NonNull
+    public ResponseEntity<UserResponseDto> delete(@PathVariable("id") Long id) {
+        service.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/user/{id}")
+    @PreAuthorize("hasRole('USER')")
+    @NonNull
+    public ResponseEntity<UserResponseDto> getById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(mapper.map(service.findById(id)));
+    }
 }
