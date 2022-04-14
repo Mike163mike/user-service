@@ -21,9 +21,10 @@ spring:
       com.mirasoft.mike: DEBUG
   file:
     name: application.log
-app:
-  jwtSecret: SimpleLongPhraseForSecretJwtTokenSimpleLongPhraseForSecretJwtTokenSimpleLongPhraseForSecretJwtToken
-  jwtExpirationMs: 84600000
+security:
+  app:
+    jwtSecret: SimpleLongPhraseForSecretJwtTokenSimpleLongPhraseForSecretJwtTokenSimpleLongPhraseForSecretJwtToken
+    jwtExpirationMs: 84600000
 #  security:
 #    oauth2:
 #      client:

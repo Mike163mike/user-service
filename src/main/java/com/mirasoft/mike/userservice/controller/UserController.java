@@ -3,6 +3,7 @@ package com.mirasoft.mike.userservice.controller;
 import com.mirasoft.mike.userservice.dto.mapper.UserMapper;
 import com.mirasoft.mike.userservice.dto.request.UserAuthPostRequestDto;
 import com.mirasoft.mike.userservice.dto.response.UserResponseDto;
+import com.mirasoft.mike.userservice.model.User;
 import com.mirasoft.mike.userservice.service.UserService;
 import lombok.NonNull;
 import org.springframework.http.HttpStatus;
@@ -35,39 +36,39 @@ public class UserController {
         return "<h2> Hello admin, my friend! </h2>";
     }
 
-    @GetMapping("/user")
-    @PreAuthorize("hasRole('USER')")
-    public String welcomeUser() {
-        return "<h2> Hello user! I can see you! </h2>";
-    }
-
-//    @GetMapping("/test")
-//    public Set<UserResponseDto> test() {
-//        return mapper.toSet(service.findAll());
-//    }
-
 //    @GetMapping("/user")
 //    @PreAuthorize("hasRole('USER')")
-//    public ResponseEntity<Set<UserResponseDto>> getAll() {
-//        Set<UserResponseDto> result = mapper.toSet(service.findAll());
-//        return ResponseEntity.ok(result);
+//    public String welcomeUser() {
+//        return "<h2> Hello user! I can see you! </h2>";
 //    }
 
-    @PostMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
-    @NonNull
-    public ResponseEntity<UserResponseDto> create(@RequestBody UserAuthPostRequestDto userPostRequestDto) {
-        UserResponseDto newUser = mapper.map(service.save(mapper.map(userPostRequestDto)));
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+//    @GetMapping("/test")
+//    public Set<User> test() {
+//        return service.findAll();
+//    }
+
+    @GetMapping("/user")
+    //@PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Set<UserResponseDto>> getAll() {
+        Set<UserResponseDto> result = mapper.toSet(service.findAll());
+        return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/admin/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    @NonNull
-    public ResponseEntity<UserResponseDto> update(@PathVariable Long id, @RequestBody UserAuthPostRequestDto userPostRequestDto) {
-        UserResponseDto newUser = mapper.map(service.update(id, mapper.map(userPostRequestDto)));
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-    }
+//    @PostMapping("/admin")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @NonNull
+//    public ResponseEntity<UserResponseDto> create(@RequestBody UserAuthPostRequestDto userPostRequestDto) {
+//        UserResponseDto newUser = mapper.map(service.save(mapper.map(userPostRequestDto)));
+//        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+//    }
+//
+//    @PutMapping("/admin/{id}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @NonNull
+//    public ResponseEntity<UserResponseDto> update(@PathVariable Long id, @RequestBody UserAuthPostRequestDto userPostRequestDto) {
+//        UserResponseDto newUser = mapper.map(service.update(id, mapper.map(userPostRequestDto)));
+//        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+//    }
 
     @DeleteMapping("/admin/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -78,9 +79,10 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    @PreAuthorize("hasRole('USER')")
-    @NonNull
+    // @PreAuthorize("hasRole('USER')")
+    //@NonNull
     public ResponseEntity<UserResponseDto> getById(@PathVariable("id") Long id) {
+        //return ResponseEntity.ok(service.findById(id));
         return ResponseEntity.ok(mapper.map(service.findById(id)));
     }
 }

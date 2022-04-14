@@ -6,8 +6,6 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserAuthPostRequestDto {
 
     private String surname;
@@ -15,6 +13,14 @@ public class UserAuthPostRequestDto {
     private String email;
     private String password;
     private Role role;
+
+    public UserAuthPostRequestDto(String surname, String name, String email, String password, Role role) {
+        this.surname = surname;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
     public String getSurname() {
         return surname;

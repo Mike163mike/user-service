@@ -7,8 +7,7 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @ToString
-@AllArgsConstructor
-public class UserSignInPostRequestDto {
+public class UserSignupPostRequestDto {
 
     private String surname;
     private String name;
@@ -16,11 +15,16 @@ public class UserSignInPostRequestDto {
     private String password;
     private Role role;
 
-    public String getSurname() {
-        return surname;
+    public UserSignupPostRequestDto(String surname, String name, String email, String password, Role role) {
+        this.surname = surname;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
-    public UserSignInPostRequestDto() {
+    public String getSurname() {
+        return surname;
     }
 
     public String getName() {

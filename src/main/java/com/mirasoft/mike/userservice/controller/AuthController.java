@@ -1,10 +1,9 @@
 package com.mirasoft.mike.userservice.controller;
 
 import com.mirasoft.mike.userservice.dto.request.UserLoginRequestDto;
-import com.mirasoft.mike.userservice.dto.request.UserSignInPostRequestDto;
+import com.mirasoft.mike.userservice.dto.request.UserSignupPostRequestDto;
 import com.mirasoft.mike.userservice.dto.response.JwtResponseDto;
 import com.mirasoft.mike.userservice.dto.response.MessageResponse;
-import com.mirasoft.mike.userservice.exception.AppException;
 import com.mirasoft.mike.userservice.model.User;
 import com.mirasoft.mike.userservice.model.emum.Role;
 import com.mirasoft.mike.userservice.service.UserDetailsImpl;
@@ -63,7 +62,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody UserSignInPostRequestDto requestDto) {
+    public ResponseEntity<?> registerUser(@RequestBody UserSignupPostRequestDto requestDto) {
         if (service.existByEmail(requestDto.getEmail())) {
             return ResponseEntity
                     .badRequest()
@@ -72,7 +71,7 @@ public class AuthController {
         Role newRole = requestDto.getRole();
         if (!service.validateRole(newRole.name())) {
             newRole = Role.USER;
-            throw new AppException("Error: this role: " + newRole + " is invalid. You role will be " + Role.USER);
+            //throw new AppException("Error: this role: " + newRole + " is invalid. You role will be " + Role.USER);
         }
         User user = new User(requestDto.getSurname(),
                 requestDto.getName(),

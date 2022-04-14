@@ -3,6 +3,7 @@ package com.mirasoft.mike.userservice.config;
 import com.mirasoft.mike.userservice.config.jwt.AuthEntryPointJwt;
 import com.mirasoft.mike.userservice.config.jwt.AuthTokenFilter;
 import com.mirasoft.mike.userservice.service.UserDetailsServiceImpl;
+import com.mirasoft.mike.userservice.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -66,6 +67,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
+//                .antMatchers("/api/user").permitAll()
+//                .antMatchers("/api/user/**").permitAll()
+//                .antMatchers("/api/**").permitAll()
+               // .antMatchers("/api").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

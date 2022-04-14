@@ -2,15 +2,20 @@ package com.mirasoft.mike.userservice.dto.request;
 
 import lombok.*;
 
-@Getter
 @Setter
 @EqualsAndHashCode
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserGetRequestDto {
 
     private String email;
+
+    public UserGetRequestDto(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }
 
 

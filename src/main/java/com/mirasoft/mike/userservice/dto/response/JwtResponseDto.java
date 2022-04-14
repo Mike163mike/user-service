@@ -7,8 +7,6 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
 public class JwtResponseDto {
 
     private String token;
