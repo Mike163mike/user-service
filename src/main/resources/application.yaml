@@ -18,7 +18,7 @@ logging:
     com:
       userservice: DEBUG
   file:
-    name: application.log
+    name: application.logx
 security:
   app:
     jwtSecret: SimpleLongPhraseForSecretJwtTokenSimpleLongPhraseForSecretJwtTokenSimpleLongPhraseForSecretJwtToken
