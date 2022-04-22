@@ -25,64 +25,42 @@ public class UserController {
         this.mapper = mapper;
     }
 
-    @GetMapping
-    public String stringTest() {
-        return "<h2> Greeting you on the root, stranger! </h2>";
-    }
-
-    @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String welcomeAdmin() {
-        return "<h2> Hello admin, my friend! </h2>";
-    }
-
-//    @GetMapping("/user")
-//    @PreAuthorize("hasRole('USER')")
-//    public String welcomeUser() {
-//        return "<h2> Hello user! I can see you! </h2>";
-//    }
-
-//    @GetMapping("/test")
-//    public Set<User> test() {
-//        return service.findAll();
-//    }
-
-    @GetMapping("/user")
-    //@PreAuthorize("hasRole('USER')")
+    @GetMapping("/getAll")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Set<UserResponseDto>> getAll() {
         Set<UserResponseDto> result = mapper.toSet(service.findAll());
         return ResponseEntity.ok(result);
     }
 
-//    @PostMapping("/admin")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @NonNull
-//    public ResponseEntity<UserResponseDto> create(@RequestBody UserAuthPostRequestDto userPostRequestDto) {
-//        UserResponseDto newUser = mapper.map(service.save(mapper.map(userPostRequestDto)));
-//        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-//    }
-//
-//    @PutMapping("/admin/{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @NonNull
-//    public ResponseEntity<UserResponseDto> update(@PathVariable Long id, @RequestBody UserAuthPostRequestDto userPostRequestDto) {
-//        UserResponseDto newUser = mapper.map(service.update(id, mapper.map(userPostRequestDto)));
-//        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-//    }
+    @PostMapping("/create")
+    @PreAuthorize("hasRole('ADMIN')")
+    @NonNull
+    public ResponseEntity<UserResponseDto> create(@RequestBody UserAuthPostRequestDto userPostRequestDto) {
+        UserResponseDto newUser = mapper.map(service.save(mapper.map(userPostRequestDto)));
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
 
-    @DeleteMapping("/admin/{id}")
+    @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @NonNull
+    public ResponseEntity<UserResponseDto> update(@PathVariable Long id, @RequestBody UserAuthPostRequestDto userPostRequestDto) {
+        UserResponseDto newUser = mapper.map(service.update(id, mapper.map(userPostRequestDto)));
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @NonNull
     public ResponseEntity<UserResponseDto> delete(@PathVariable("id") Long id) {
+        User result = service.findById(id);
         service.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(mapper.map(result));
     }
 
-    @GetMapping("/user/{id}")
-    // @PreAuthorize("hasRole('USER')")
-    //@NonNull
+    @GetMapping("/getOne/{id}")
+    @PreAuthorize("hasRole('USER')")
+    @NonNull
     public ResponseEntity<UserResponseDto> getById(@PathVariable("id") Long id) {
-        //return ResponseEntity.ok(service.findById(id));
         return ResponseEntity.ok(mapper.map(service.findById(id)));
     }
 }

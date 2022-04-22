@@ -1,5 +1,6 @@
 package com.mirasoft.mike.userservice.dto.mapper;
 
+import com.mirasoft.mike.userservice.dto.request.UserAuthPostRequestDto;
 import com.mirasoft.mike.userservice.dto.response.UserResponseDto;
 import com.mirasoft.mike.userservice.model.User;
 import org.mapstruct.Mapper;
@@ -12,13 +13,7 @@ public interface UserMapper {
 
     UserResponseDto map(User user);
 
-//    User map(UserSignInPostRequestDto userPostRequestDto);
-//
-//    User map(UserAuthPostRequestDto userAuthPostRequestDto);
-//
-//    User map(UserGetRequestDto userGetRequestDto);
-//
-//    User map(UserLoginRequestDto userLoginRequestDto);
+    User map(UserAuthPostRequestDto userAuthPostRequestDto);
 
     default Set<UserResponseDto> toSet(Set<User> models) {
         return models.stream()

@@ -6,6 +6,7 @@ import java.util.Objects;
 
 @Setter
 @ToString
+@NoArgsConstructor
 public class UserLoginRequestDto {
 
     private String email;

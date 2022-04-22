@@ -2,7 +2,6 @@ package com.mirasoft.mike.userservice.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mirasoft.mike.userservice.model.User;
-import lombok.EqualsAndHashCode;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

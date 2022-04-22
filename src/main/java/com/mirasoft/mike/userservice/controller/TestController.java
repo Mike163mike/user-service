@@ -13,18 +13,18 @@ public class TestController {
 
     @GetMapping("/all")
     public String getAll() {
-        return "<h2> Public API </h2>";
+        return "Public API";
     }
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public String getUserApi() {
-        return "<h2> User API </h2>";
+        return "User API";
     }
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String getAdminApi() {
-        return "<h2> Admin API </h2>";
+        return "Admin API";
     }
 }

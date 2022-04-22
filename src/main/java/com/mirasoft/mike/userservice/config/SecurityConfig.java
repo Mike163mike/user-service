@@ -24,18 +24,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl userDetailsService;
+    private final JwtUtil util;
     private final AuthEntryPointJwt unauthorizedHandler;
 
     @Autowired
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtUtil util, AuthEntryPointJwt unauthorizedHandler) {
         this.userDetailsService = userDetailsService;
+        this.util = util;
         this.unauthorizedHandler = unauthorizedHandler;
     }
 
-
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+        return new AuthTokenFilter(util, userDetailsService);
     }
 
     @Override
@@ -56,21 +57,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors()
-                .and()
-                .csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
-//                .antMatchers("/api/user").permitAll()
-//                .antMatchers("/api/user/**").permitAll()
-//                .antMatchers("/api/**").permitAll()
-               // .antMatchers("/api").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
