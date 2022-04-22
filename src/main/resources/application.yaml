@@ -19,9 +19,6 @@ logging:
       userservice: DEBUG
   file:
     name: application.log
-#eureka:
-#  instance:
-#    instance-id: userService-instance_1
 security:
   app:
     jwtSecret: SimpleLongPhraseForSecretJwtTokenSimpleLongPhraseForSecretJwtTokenSimpleLongPhraseForSecretJwtToken
